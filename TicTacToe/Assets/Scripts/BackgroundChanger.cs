@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 
 public class BackgroundChanger : MonoBehaviour
@@ -35,11 +36,9 @@ public class BackgroundChanger : MonoBehaviour
         // Sky.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Backgrounds/night/" + (currentTimeOfDay + Sky.GetComponent<SpriteRenderer>().sprite.name.Substring(1)));
         Debug.Log(Sky.GetComponent<SpriteRenderer>().sprite.name);
         ChangeBG(currentTimeOfDay);
-        
 
-        
-        
     }
+
     private void ChangeBG(TimeOfDay timeNow)
     {
         foreach (var bgObj in bgObjects)
