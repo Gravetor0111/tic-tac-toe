@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public class CanvasChanger : MonoBehaviour
 {
     // Start is called before the first frame update
+    public Canvas titleCanvas, menuCanvas;
+
     void Start()
     {
-        
+        titleCanvas.enabled = true;
+        menuCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -14,9 +17,10 @@ public class SceneChanger : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {   
-            if (SceneManager.GetActiveScene().name == "Title")
+            if (titleCanvas.enabled)
             {
-                SceneManager.LoadScene("Menu");
+                titleCanvas.enabled = false;
+                menuCanvas.enabled = true;
             }
         }
     }
