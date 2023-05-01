@@ -1,27 +1,81 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CanvasChanger : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Canvas titleCanvas, menuCanvas;
+    public Canvas titleCanvas, menuCanvas, singlePlayerCanvas, doublePlayerCanvas, highScoreCanvas;
 
+    void Awake()
+    {
+        titleCanvas.enabled = false;
+        menuCanvas.enabled = false;
+        singlePlayerCanvas.enabled = false;
+        doublePlayerCanvas.enabled = false;
+        highScoreCanvas.enabled = false;
+    }
     void Start()
     {
         titleCanvas.enabled = true;
-        menuCanvas.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GoToMenu()
     {
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {   
-            if (titleCanvas.enabled)
-            {
-                titleCanvas.enabled = false;
-                menuCanvas.enabled = true;
-            }
+        if (titleCanvas.enabled)
+        {
+            titleCanvas.enabled = false;
+            menuCanvas.enabled = true;
         }
+    }
+
+    public void GoToSinglePlayerMenu()
+    {
+        if (menuCanvas.enabled)
+        {
+            menuCanvas.enabled = false;
+            singlePlayerCanvas.enabled = true;
+        }
+    }
+
+    public void GoToDoublePlayerMenu()
+    {
+        if (menuCanvas.enabled)
+        {
+            menuCanvas.enabled = false;
+            doublePlayerCanvas.enabled = true;
+        }
+    }
+
+    public void GoToHighScoreMenu()
+    {
+        if (menuCanvas.enabled)
+        {
+            menuCanvas.enabled = false;
+            highScoreCanvas.enabled = true;
+        }
+    }
+
+    public void GoBackToMenu()
+    {
+        singlePlayerCanvas.enabled = false;
+        doublePlayerCanvas.enabled = false;
+        highScoreCanvas.enabled = false;
+        menuCanvas.enabled = true;
+    }
+
+    public void StartSinglePlayer()
+    {
+        
+    }
+
+    public void StartDoublePlayer()
+    {
+        
+    }
+
+
+    public void ExitGame()
+    {
+        Application.Quit();
+        Debug.Log("Game Quit");
     }
 }

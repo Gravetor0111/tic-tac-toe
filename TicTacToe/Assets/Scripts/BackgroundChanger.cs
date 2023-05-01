@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System;
 
 public class BackgroundChanger : MonoBehaviour
@@ -17,11 +16,11 @@ public class BackgroundChanger : MonoBehaviour
         DateTime now = DateTime.Now;
 
         // Determine which time of day it is
-        if (now.TimeOfDay >= new TimeSpan(5, 0, 1) && now.TimeOfDay <= new TimeSpan(12, 0, 0))
+        if (now.TimeOfDay >= new TimeSpan(5, 0, 1) && now.TimeOfDay <= new TimeSpan(13, 0, 0))
         {
             currentTimeOfDay = TimeOfDay.d;
         }
-        else if (now.TimeOfDay >= new TimeSpan(12, 0, 1) && now.TimeOfDay <= new TimeSpan(20, 0, 0))
+        else if (now.TimeOfDay >= new TimeSpan(13, 0, 1) && now.TimeOfDay <= new TimeSpan(21, 0, 0))
         {
             currentTimeOfDay = TimeOfDay.e;
         }
@@ -30,11 +29,6 @@ public class BackgroundChanger : MonoBehaviour
             currentTimeOfDay = TimeOfDay.n;
         }
 
-        
-
-        Debug.Log("Current time in 24-hour format: " + currentTimeOfDay);
-        // Sky.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Backgrounds/night/" + (currentTimeOfDay + Sky.GetComponent<SpriteRenderer>().sprite.name.Substring(1)));
-        Debug.Log(Sky.GetComponent<SpriteRenderer>().sprite.name);
         ChangeBG(currentTimeOfDay);
 
     }
