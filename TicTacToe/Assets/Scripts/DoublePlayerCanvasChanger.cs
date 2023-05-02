@@ -21,24 +21,22 @@ public class DoublePlayerCanvasChanger : MonoBehaviour
 
     public void SelectedX()
     {
-        buttonX.interactable = false;
-        buttonO.interactable = false;
-        selectCanvas.enabled = false;
-        gameCanvas.enabled = true;
-        Debug.Log("X Selected");
-        DoublePlayerGameLogic.p1.sign = "X";
-        DoublePlayerGameLogic.p2.sign = "O";
-        dl.ShiftTurn();
+        ChangeButtonsAndCanvas();
+        DoublePlayerGameLogic.SetSymbols("X");
+        DoublePlayerGameLogic.ShiftTurn();
     }
     public void SelectedO()
+    {
+        ChangeButtonsAndCanvas();
+        DoublePlayerGameLogic.SetSymbols("O");
+        DoublePlayerGameLogic.ShiftTurn();
+    }
+
+    void ChangeButtonsAndCanvas()
     {
         buttonX.interactable = false;
         buttonO.interactable = false;
         selectCanvas.enabled = false;
         gameCanvas.enabled = true;
-        Debug.Log("O Selected");
-        DoublePlayerGameLogic.p1.sign = "O";
-        DoublePlayerGameLogic.p2.sign = "X";
-        dl.ShiftTurn();
     }
 }
