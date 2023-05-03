@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class GridSpace : MonoBehaviour
 {
-    GameObject DPGLObj;
-    DoublePlayerGameLogic dl;
+    GameObject GLObj;
+    GameLogic gl;
     HighScoreManager hs;
 
     public AudioClip sound;
@@ -18,9 +18,9 @@ public class GridSpace : MonoBehaviour
 
     void Awake()
     {
-        DPGLObj = GameObject.Find("GameTracker");
-        dl = DPGLObj.GetComponent<DoublePlayerGameLogic>();
-        hs = DPGLObj.GetComponent<HighScoreManager>();
+        GLObj = GameObject.Find("GameTracker");
+        gl = GLObj.GetComponent<GameLogic>();
+        hs = GLObj.GetComponent<HighScoreManager>();
     }
     void Start()
     {
@@ -28,20 +28,27 @@ public class GridSpace : MonoBehaviour
     }
     public void SetSpace()
     {
-        if (DoublePlayerGameLogic.p1.turn)
+        if (GameLogic.availableMoves <= 0)
         {
-            playerSide = DoublePlayerGameLogic.p1.sign;
+            return;
         }
         else
         {
-            playerSide = DoublePlayerGameLogic.p2.sign;
+            GameLogic.availableMoves--;
+        }
+        
+        if (GameLogic.p1.turn)
+        {
+            playerSide = GameLogic.p1.sign;
+        }
+        else
+        {
+            playerSide = GameLogic.p2.sign;
         }
         buttonText.text = playerSide;
         Debug.Log(playerSide);
-        GameStatus();
         button.interactable = false;
-        
-        
+        GameStatus();
     }
     void PlaySound()
     {
@@ -50,32 +57,33 @@ public class GridSpace : MonoBehaviour
 
     void GameStatus()
     {
-        string winSign = dl.CheckWin();
+        string winSign = gl.CheckWin();
         if (winSign == "X" || winSign == "O")
         {
             Debug.Log(winSign + " WON");
-            dl.DisableButtons();
-            if (winSign == DoublePlayerGameLogic.p1.sign)
+            gl.DisableButtons();
+            if (winSign == GameLogic.p1.sign)
             {
-                dl.ShowResult(DoublePlayerGameLogic.p1.name);
-                Debug.Log(DoublePlayerGameLogic.p1.name + " WON");
-                hs.AddPlayerScore(DoublePlayerGameLogic.p1.name, 100);
+                gl.ShowResult(GameLogic.p1.name);
+                Debug.Log(GameLogic.p1.name + " WON");
+                hs.AddPlayerScore(GameLogic.p1.name, 100);
             }
             else
             {
-                dl.ShowResult(DoublePlayerGameLogic.p2.name);
-                Debug.Log(DoublePlayerGameLogic.p2.name + " WON");
-                hs.AddPlayerScore(DoublePlayerGameLogic.p2.name, 100);
+                gl.ShowResult(GameLogic.p2.name);
+                Debug.Log(GameLogic.p2.name + " WON");
+                hs.AddPlayerScore(GameLogic.p2.name, 100);
             }
         }
-        else if(!dl.CheckAvailableButtons())
+        else if(!(winSign == "X" || winSign == "O") && !gl.CheckAvailableButtons())
         {
             Debug.Log("DRAW");
-            dl.ShowResult("Draw");
+            gl.ShowResult("Draw");
         }
         else
         {
-            DoublePlayerGameLogic.ShiftTurn();
+            GameLogic.ShiftTurn();
         }
+        
     }
 }

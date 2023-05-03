@@ -8,14 +8,14 @@ public class GameOptionsButtons : MonoBehaviour
 {
 
     GameObject DPGLObj;
-    DoublePlayerGameLogic dl;
+    GameLogic dl;
     public AudioClip sound1, sound2;
     GameObject canvasChanger;
 
     void Start()
     {
         DPGLObj = GameObject.Find("GameTracker");
-        dl = DPGLObj.GetComponent<DoublePlayerGameLogic>();
+        dl = DPGLObj.GetComponent<GameLogic>();
         canvasChanger = GameObject.Find("CanvasChanger");
 
         if (sound1 != null)

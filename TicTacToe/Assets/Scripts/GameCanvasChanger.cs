@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DoublePlayerCanvasChanger : MonoBehaviour
+public class GameCanvasChanger : MonoBehaviour
 {
 
-    GameObject DPGLObj;
-    DoublePlayerGameLogic dl;
+    GameObject glObj;
+    GameLogic gl;
     public Canvas selectCanvas, gameCanvas;
     public Button buttonX, buttonO;
     // Start is called before the first frame update
@@ -15,21 +15,21 @@ public class DoublePlayerCanvasChanger : MonoBehaviour
     {
         selectCanvas.enabled = true;
         gameCanvas.enabled = false;
-        DPGLObj = GameObject.Find("GameTracker");
-        dl = DPGLObj.GetComponent<DoublePlayerGameLogic>();
+        glObj = GameObject.Find("GameTracker");
+        gl = glObj.GetComponent<GameLogic>();
     }
 
     public void SelectedX()
     {
         ChangeButtonsAndCanvas();
-        DoublePlayerGameLogic.SetSymbols("X");
-        DoublePlayerGameLogic.ShiftTurn();
+        GameLogic.SetSymbols("X");
+        GameLogic.ShiftTurn();
     }
     public void SelectedO()
     {
         ChangeButtonsAndCanvas();
-        DoublePlayerGameLogic.SetSymbols("O");
-        DoublePlayerGameLogic.ShiftTurn();
+        GameLogic.SetSymbols("O");
+        GameLogic.ShiftTurn();
     }
 
     void ChangeButtonsAndCanvas()

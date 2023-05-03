@@ -5,9 +5,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class DoublePlayerGameLogic : MonoBehaviour
+public class GameLogic : MonoBehaviour
 {   
+    public int noOfPlayers;
+    public static int availableMoves;
     public TMP_InputField player1Name, player2Name;
+    bool gameState = true;
     public TextMeshProUGUI[] buttonList = new TextMeshProUGUI[9];
     public struct Player
     {   
@@ -45,9 +48,35 @@ public class DoublePlayerGameLogic : MonoBehaviour
         {
             currentTurnPlayerTxt.text = currentTurnPlayer;
         }
+        
+        if (p2.name == "CPU" && p2.turn && gameState)
+        {
+            CpusTurn();
+        }
+        else
+        {
+            return;
+        }
+        
     }
 
-    public void MoveToGame()
+    public void MoveToSinglePlayerGame()
+    {
+        if ((player1Name.text.Length == 0) || (player1Name.text == "CPU"))
+        {
+            return;
+        }
+        else
+        {
+            noOfPlayers = 1;
+            availableMoves = 9;
+            gameState = true;
+            SetNames(noOfPlayers);
+            SceneManager.LoadScene("SinglePlayerLevel");
+        }
+    }
+
+    public void MoveToDoublePlayerGame()
     {
         if ((player1Name.text.Length == 0 || player2Name.text.Length == 0) || (player1Name.text == player2Name.text))
         {
@@ -55,15 +84,26 @@ public class DoublePlayerGameLogic : MonoBehaviour
         }
         else
         {
-            SetNames();
+            noOfPlayers = 2;
+            availableMoves = 9;
+            SetNames(noOfPlayers);
             SceneManager.LoadScene("DoublePlayerLevel");
         }
     }
-    void SetNames()
+    void SetNames(int players)
     {
-        p1.name = player1Name.text;
-        p2.name = player2Name.text;
-        Debug.Log("P1: " + p1.name + " P2: " + p2.name);
+        if (players < 2)
+        {
+            p1.name = player1Name.text;
+            p2.name = "CPU";
+            Debug.Log("P1: " + p1.name + " P2: " + p2.name);
+        }
+        else
+        {
+            p1.name = player1Name.text;
+            p2.name = player2Name.text;
+            Debug.Log("P1: " + p1.name + " P2: " + p2.name);
+        }
     }
 
     public static void SetSymbols(string symbol)
@@ -173,10 +213,12 @@ public class DoublePlayerGameLogic : MonoBehaviour
             }
         }
         return false;
+        
     }
     
     public void ShowResult(string winner)
     {
+        gameState = false;
         if (winner == p1.name || winner == p2.name)
         {
             resutTxt.text = winner + " Won!";
@@ -187,10 +229,37 @@ public class DoublePlayerGameLogic : MonoBehaviour
             resutTxt.text = "Draw";
             resutTxt.color = Color.yellow;
         }
-        
     }
 
-
+    public void CpusTurn()
+    {
+        Debug.Log("CPUS TURN HAS BEEN CALLED!" + availableMoves);
+        List<string> availableButtons = new List<string>();
+        for (int i=0; i<9; i++)
+        {
+            if (buttonList[i].GetComponentInParent<Button>().interactable)
+            {
+                availableButtons.Add(buttonList[i].GetComponentInParent<Button>().name);
+                Debug.Log("Buttons Added: " + availableButtons);
+            }
+        }
+        for (int i=0; i<availableButtons.ToArray().Length; i++)
+        {
+            Debug.Log("Available Buttons: " + availableButtons[i]);
+        }
+        if (availableButtons.ToArray().Length > 0)
+        {
+            int randomIndex = Random.Range(0, availableButtons.ToArray().Length);
+            string randomButton = availableButtons.ToArray()[randomIndex];
+            Debug.Log("Random Button: " + randomButton);
+            GameObject choosenButton = GameObject.Find(randomButton);
+            choosenButton.GetComponent<Button>().onClick.Invoke();
+        }
+        else
+        {
+            return;
+        }
+    }
 
     public void RestartGame()
     {
@@ -200,6 +269,9 @@ public class DoublePlayerGameLogic : MonoBehaviour
             button.text = "";
         }
         resutTxt.text = "";
+        availableMoves = 9;
+        gameState = true;
+
     }
 
 }
