@@ -7,6 +7,7 @@ using TMPro;
 
 public class GameLogic : MonoBehaviour
 {   
+    GameObject canvasObject;
     public int noOfPlayers;
     public static int availableMoves;
     public TMP_InputField player1Name, player2Name;
@@ -36,6 +37,7 @@ public class GameLogic : MonoBehaviour
         }
         p1.turn = false;
         p2.turn = false;
+        canvasObject = GameObject.Find("CanvasChanger");
     }
 
     void Update()
@@ -218,16 +220,22 @@ public class GameLogic : MonoBehaviour
     
     public void ShowResult(string winner)
     {
+        AudioSource windsound = canvasObject.GetComponentsInChildren<AudioSource>()[1];
+        AudioSource drawsound = canvasObject.GetComponentsInChildren<AudioSource>()[2];
+        
+
         gameState = false;
         if (winner == p1.name || winner == p2.name)
         {
             resutTxt.text = winner + " Won!";
             resutTxt.color = Color.green;
+            windsound.Play();
         }
         else
         {
             resutTxt.text = "Draw";
             resutTxt.color = Color.yellow;
+            drawsound.Play();
         }
     }
 
