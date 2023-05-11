@@ -51,7 +51,7 @@ public class GameLogic : MonoBehaviour
             currentTurnPlayerTxt.text = currentTurnPlayer;
         }
         
-        if (p2.name == "CPU" && p2.turn && gameState)
+        if (gameState && p2.name == "CPU" && p2.turn)
         {
             CpusTurn();
         }
@@ -98,13 +98,11 @@ public class GameLogic : MonoBehaviour
         {
             p1.name = player1Name.text;
             p2.name = "CPU";
-            Debug.Log("P1: " + p1.name + " P2: " + p2.name);
         }
         else
         {
             p1.name = player1Name.text;
             p2.name = player2Name.text;
-            Debug.Log("P1: " + p1.name + " P2: " + p2.name);
         }
     }
 
@@ -114,15 +112,11 @@ public class GameLogic : MonoBehaviour
         {
             p1.sign = symbol;
             p2.sign = "O";
-            Debug.Log(p1.name + " Selected " + p1.sign);
-            Debug.Log(p2.name + " Selected " + p2.sign);
         }
         else
         {
             p1.sign = symbol;
             p2.sign = "X";
-            Debug.Log(p1.name + " Selected " + p1.sign);
-            Debug.Log(p2.name + " Selected " + p2.sign);
         }
         
     }
@@ -132,7 +126,6 @@ public class GameLogic : MonoBehaviour
         if (!p1.turn && !p2.turn)
         {
             p1.turn = true;
-            Debug.Log("FIRST TURN OF PLAYER " + p1.name);
             currentTurnPlayer = p1.name + "'s Turn: ";
         }
         else
@@ -155,7 +148,6 @@ public class GameLogic : MonoBehaviour
 
     public string CheckWin()
     {
-        Debug.Log("CHECK WIN CALLED!");
         if (buttonList[0].text == buttonList[1].text && buttonList[1].text == buttonList[2].text)
         {
             return buttonList[0].text;
@@ -239,27 +231,33 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    public void CpusTurn()
+    public void InvokingCpusTurn()
     {
-        Debug.Log("CPUS TURN HAS BEEN CALLED!" + availableMoves);
+        float delay = 30.0f;
+        float elapsedTime = 0.0f;
+    
+        while (elapsedTime < delay)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+        CpusTurn();
+    }
+
+    private void CpusTurn()
+    {
         List<string> availableButtons = new List<string>();
         for (int i=0; i<9; i++)
         {
             if (buttonList[i].GetComponentInParent<Button>().interactable)
             {
                 availableButtons.Add(buttonList[i].GetComponentInParent<Button>().name);
-                Debug.Log("Buttons Added: " + availableButtons);
             }
         }
-        for (int i=0; i<availableButtons.ToArray().Length; i++)
-        {
-            Debug.Log("Available Buttons: " + availableButtons[i]);
-        }
+        
         if (availableButtons.ToArray().Length > 0)
         {
             int randomIndex = Random.Range(0, availableButtons.ToArray().Length);
             string randomButton = availableButtons.ToArray()[randomIndex];
-            Debug.Log("Random Button: " + randomButton);
             GameObject choosenButton = GameObject.Find(randomButton);
             choosenButton.GetComponent<Button>().onClick.Invoke();
         }

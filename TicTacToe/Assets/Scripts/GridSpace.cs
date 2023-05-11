@@ -46,7 +46,6 @@ public class GridSpace : MonoBehaviour
             playerSide = GameLogic.p2.sign;
         }
         buttonText.text = playerSide;
-        Debug.Log(playerSide);
         button.interactable = false;
         GameStatus();
     }
@@ -60,24 +59,20 @@ public class GridSpace : MonoBehaviour
         string winSign = gl.CheckWin();
         if (winSign == "X" || winSign == "O")
         {
-            Debug.Log(winSign + " WON");
             gl.DisableButtons();
             if (winSign == GameLogic.p1.sign)
             {
                 gl.ShowResult(GameLogic.p1.name);
-                Debug.Log(GameLogic.p1.name + " WON");
                 hs.AddPlayerScore(GameLogic.p1.name, 100);
             }
             else
             {
                 gl.ShowResult(GameLogic.p2.name);
-                Debug.Log(GameLogic.p2.name + " WON");
                 hs.AddPlayerScore(GameLogic.p2.name, 100);
             }
         }
         else if(!(winSign == "X" || winSign == "O") && !gl.CheckAvailableButtons())
         {
-            Debug.Log("DRAW");
             gl.ShowResult("Draw");
         }
         else

@@ -109,8 +109,6 @@ public class HighScoreManager : MonoBehaviour
         {
             highScores += (i + 1) + ". " + scores.players[i].playerName + " - " + scores.players[i].score + "\n\n";
         }
-        Debug.Log(highScores);
-        //return highScores;
         scrollViewTxt.text = highScores;
     }
 }
